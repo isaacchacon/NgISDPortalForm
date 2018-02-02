@@ -1,0 +1,87 @@
+<form [formGroup]="isdPortalData"  (ngSubmit)="onSubmit()" novalidate>
+	<div class="SpTaxGeneral">
+		<tax-form-header formTitle="{{FormTitle}}" ID="{{isdPortalData.get('ID').value}}" ></tax-form-header>
+		<!--input class="SpTaxTextbox" style="text-align:right" type="text" formControlName="ID" /-->
+		<tax-form-title-bar firstTitle="Desired Service" secondTitle="About You" ></tax-form-title-bar>
+		<div class="MainIsdForm">
+			<!--left main container column-->
+			<div class="FlexMain" >
+			<!--- left side -->
+				<div class="MainIsdForm">
+					<div class="Flex27" >
+					The status of this request is:
+					</div>
+					<div class="Flex73">
+						<div  class = "readOnlyTextBox centeredTextBox">
+						{{show('Status')}}
+						</div>
+					</div>
+				</div>
+				<div class= "readOnlyTextBox headerBar">
+				Request
+				</div>
+				<div *ngFor="let serviceType of serviceTypes" class ="ServiceEntry" >
+					<label style="">
+					<input type="radio" formControlName="SelectedService" value ="{{serviceType[0]}}" > 
+					{{serviceType[1]}}</label>
+				</div>				
+			</div>
+			<div class="divider"></div>
+			<!--right main container column-->
+			<div class="FlexMain" >
+			<!--- right side -->
+			Requestor:
+			<div class="readOnlyTextBox">
+				{{show('Requestor')}}
+			</div>
+			SOUID:
+			<div class="readOnlyTextBox">
+				{{show('Requestor_SOUID')}}
+			</div>
+			<label for="SupervisorPicker">
+			Requestor's Supervisor:
+			<div class="explanationPicker">
+			(Type in <i>Last Name, First Name</i> Or <i>Email</i>. Reminder - Submit a Supervisor's name that will be able to approve. If out of office - select their back-up.
+			</div>
+			</label>
+			<people-picker  controlId="SupervisorPicker"  [group]="isdPortalData.get('Supervisor')"></people-picker>	
+			<label for="AdministratorPicker">
+			Administrator:
+			<div class="explanationPicker">
+			(Type in <i>Last Name, First Name</i> Or <i>Email</i>. Reminder - Submit an Administrator's name that will be able to approve. If out of office - select their back-up.
+			</div>
+			</label>
+			<people-picker  controlId="AdministratorPicker"  [group]="isdPortalData.get('Administrator')"></people-picker>
+			
+			  <label for="division1">Division:</label>
+			  <select class="form-control" formControlName="Division" id="division1" required="required">
+				<option></option>
+				<option *ngFor="let division of divisionsArray">{{division}}</option>
+			  </select>
+			  
+			  <label for="location1">Location:</label>
+			  <select class="form-control" id="location1" formControlName="Location">
+				<option></option>
+				<option *ngFor="let location of locationsArray">{{location}}</option>
+			  </select>
+			  <label for="dateNeeded" >Date Needed:</label>
+			  <div class="MainIsdForm DateNeeded">
+				<input id="dateNeeded" formControlName="DateNeeded"  type="text" style="flex-basis:94%" class="form-control" [matDatepicker]="myDatepicker">
+				<mat-datepicker-toggle  style="flex-basis:6%" [for]="myDatepicker"></mat-datepicker-toggle>
+				<mat-datepicker #myDatepicker></mat-datepicker>
+			  </div>	
+			Attachments:
+			<div>
+				
+			</div>
+			<!-- end of about you section -->
+			</div>
+			
+			
+		</div>
+		<div class="SpTaxAlginCenter">
+			<button type="submit" [disabled]="isdPortalData.pristine || isdPortalData.status=='INVALID' || thinking"  class="SpTaxButton btn">Submit</button>
+			<input type="button" class="SpTaxButton btn"  value="Exit Without Saving" (click)="exit();" />
+		</div>
+	</div>
+</form>
